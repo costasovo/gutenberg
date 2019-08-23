@@ -20,22 +20,24 @@ export default function save( { attributes } ) {
 		textColor,
 		customBackgroundColor,
 		customTextColor,
+		gradient,
 		linkTarget,
 		rel,
 	} = attributes;
 
 	const textClass = getColorClassName( 'color', textColor );
-	const backgroundClass = getColorClassName( 'background-color', backgroundColor );
+	const backgroundClass = ! gradient && getColorClassName( 'background-color', backgroundColor );
 
 	const buttonClasses = classnames( 'wp-block-button__link', {
 		'has-text-color': textColor || customTextColor,
 		[ textClass ]: textClass,
-		'has-background': backgroundColor || customBackgroundColor,
+		'has-background': backgroundColor || customBackgroundColor || gradient,
 		[ backgroundClass ]: backgroundClass,
 	} );
 
 	const buttonStyle = {
-		backgroundColor: backgroundClass ? undefined : customBackgroundColor,
+		backgroundColor: backgroundClass || gradient ? undefined : customBackgroundColor,
+		background: gradient ? gradient : undefined,
 		color: textClass ? undefined : customTextColor,
 	};
 

@@ -45,6 +45,9 @@
 		},
 		"placeholder": {
 			"type": "string"
+		},
+		"customGradient": {
+			"type": "string"
 		}
 	}
 }

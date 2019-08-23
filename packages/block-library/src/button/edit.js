@@ -28,6 +28,7 @@ import {
 	InspectorControls,
 	withColors,
 	PanelColorSettings,
+	GradientPickerControl,
 } from '@wordpress/block-editor';
 
 const { getComputedStyle } = window;
@@ -105,6 +106,7 @@ class ButtonEdit extends Component {
 			linkTarget,
 			rel,
 			placeholder,
+			customGradient,
 		} = attributes;
 
 		const linkId = `wp-block-button__inline-link-${ instanceId }`;
@@ -118,14 +120,15 @@ class ButtonEdit extends Component {
 					withoutInteractiveFormatting
 					className={ classnames(
 						'wp-block-button__link', {
-							'has-background': backgroundColor.color,
-							[ backgroundColor.class ]: backgroundColor.class,
+							'has-background': backgroundColor.color || customGradient,
+							[ backgroundColor.class ]: ! customGradient && backgroundColor.class,
 							'has-text-color': textColor.color,
 							[ textColor.class ]: textColor.class,
 						}
 					) }
 					style={ {
-						backgroundColor: backgroundColor.color,
+						backgroundColor: ! customGradient && backgroundColor.color,
+						background: customGradient,
 						color: textColor.color,
 					} }
 				/>
@@ -153,7 +156,10 @@ class ButtonEdit extends Component {
 						colorSettings={ [
 							{
 								value: backgroundColor.color,
-								onChange: setBackgroundColor,
+								onChange: ( newColor ) => {
+									setAttributes( { customGradient: undefined } );
+									setBackgroundColor( newColor );
+								},
 								label: __( 'Background Color' ),
 							},
 							{
@@ -175,6 +181,20 @@ class ButtonEdit extends Component {
 							} }
 						/>
 					</PanelColorSettings>
+					<PanelBody title={ __( 'Gradient' ) }>
+						<GradientPickerControl
+							onChange={
+								( newGradient ) => {
+									setAttributes( {
+										customGradient: newGradient,
+										backgroundColor: undefined,
+										customBackgroundColor: undefined,
+									} );
+								}
+							}
+							value={ customGradient }
+						/>
+					</PanelBody>
 					<PanelBody title={ __( 'Link Settings' ) }>
 						<ToggleControl
 							label={ __( 'Open in New Tab' ) }
