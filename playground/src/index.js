@@ -24,10 +24,7 @@ import '@wordpress/format-library';
  * Internal dependencies
  */
 import './style.scss';
-
-/**
- * External dependencies
- */
+import * as BCMapper from './bc-mapper';
 import * as submitBlock from './blocks/submit/index';
 import * as inputBlock from './blocks/input/index';
 
@@ -62,7 +59,8 @@ const submitButton = {
 	innerBlocks: [],
 };
 
-const defaultBlocks = [ emailInput, submitButton ];
+// const defaultBlocks = [ emailInput, submitButton ];
+const defaultBlocks = BCMapper.mapToEditor( BCMapper.formData );
 
 function App() {
 	const [ blocks, updateBlocks ] = useState( defaultBlocks );
@@ -72,7 +70,7 @@ function App() {
 	/* eslint-disable no-console */
 	useEffect( () => {
 		console.log( 'Current blocks' );
-		console.log( JSON.stringify( blocks ) );
+		console.log( blocks );
 		console.log( 'Previous blocks' );
 		console.log( blocksRef.current );
 		blocksRef.current = blocks;
