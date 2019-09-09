@@ -20,8 +20,12 @@
 }
 
 .playground__body {
-	padding-top: 20px;
+	& > div {
+		display: flex;
+		flex-direction: row;
+	}
 
+	padding-top: 20px;
 	img {
 		max-width: 100%;
 		height: auto;
@@ -34,6 +38,14 @@
 	.components-navigate-regions {
 		height: 100%;
 	}
+}
+
+.playground__panel {
+	width: 400px;
+}
+
+.playground__editor {
+	width: 100%;
 }
 
 /**

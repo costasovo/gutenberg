@@ -8,6 +8,7 @@ import {
 	BlockEditorKeyboardShortcuts,
 	BlockEditorProvider,
 	BlockList,
+	BlockInspector,
 	WritingFlow,
 	ObserveTyping,
 } from '@wordpress/block-editor';
@@ -15,6 +16,9 @@ import {
 	Popover,
 	SlotFillProvider,
 	DropZoneProvider,
+	Panel,
+	PanelHeader,
+	PanelBody,
 } from '@wordpress/components';
 // import { registerCoreBlocks } from '@wordpress/block-library';
 import { registerBlockType } from '@wordpress/blocks';
@@ -27,6 +31,7 @@ import './style.scss';
 import * as BCMapper from './bc-mapper';
 import * as submitBlock from './blocks/submit/index';
 import * as inputBlock from './blocks/input/index';
+import * as html from '../../packages/block-library/build/html';
 
 /* eslint-disable no-restricted-syntax */
 import '@wordpress/components/build-style/style.css';
@@ -90,7 +95,7 @@ function App() {
 							onInput={ updateBlocks }
 							onChange={ updateBlocks }
 						>
-							<div className="editor-styles-wrapper">
+							<div className="editor-styles-wrapper playground__editor">
 								<BlockEditorKeyboardShortcuts />
 								<WritingFlow>
 									<ObserveTyping>
@@ -99,6 +104,14 @@ function App() {
 								</WritingFlow>
 							</div>
 							<Popover.Slot />
+							<div className="playground__panel">
+								<Panel>
+									<PanelHeader label="PANEL HEADER">Hello panel</PanelHeader>
+									<PanelBody>
+										<BlockInspector />
+									</PanelBody>
+								</Panel>
+							</div>
 						</BlockEditorProvider>
 					</DropZoneProvider>
 				</SlotFillProvider>
@@ -110,6 +123,7 @@ function App() {
 // registerCoreBlocks();
 registerBlockType( submitBlock.name, submitBlock.settings );
 registerBlockType( inputBlock.name, inputBlock.settings );
+registerBlockType( html.name, Object.assign( {}, html.metadata, html.settings ) );
 render(
 	<App />,
 	document.querySelector( '#app' )

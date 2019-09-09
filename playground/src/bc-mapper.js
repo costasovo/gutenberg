@@ -88,6 +88,12 @@ export function mapToEditor( data ) {
 					label: item.params.label,
 				};
 				return mapped;
+			case 'html':
+				mapped.name = 'core/html';
+				mapped.attributes = {
+					content: item.params.text,
+				};
+				return mapped;
 		}
 		return null;
 	} ).filter( Boolean );

@@ -61,9 +61,7 @@
 		"@wordpress/token-list": "file:packages/token-list",
 		"@wordpress/url": "file:packages/url",
 		"@wordpress/viewport": "file:packages/viewport",
-		"@wordpress/wordcount": "file:packages/wordcount",
-		"blocks": "0.3.5",
-		"react-click-outside": "3.0.1"
+		"@wordpress/wordcount": "file:packages/wordcount"
 	},
 	"devDependencies": {
 		"@actions/core": "1.0.0",
