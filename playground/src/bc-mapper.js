@@ -66,7 +66,7 @@ export const formData = {
 };
 /* eslint-enable quote-props, quotes, comma-dangle */
 
-export function mapToEditor( data ) {
+export function getBlocks( data ) {
 	return data.body.map( ( item ) => {
 		const mapped = {
 			clientId: item.id,

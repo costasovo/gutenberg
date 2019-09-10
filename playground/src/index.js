@@ -13,12 +13,16 @@ import {
 	ObserveTyping,
 } from '@wordpress/block-editor';
 import {
+	Button,
 	Popover,
 	SlotFillProvider,
 	DropZoneProvider,
 	Panel,
 	PanelHeader,
 	PanelBody,
+	SelectControl,
+	TextControl,
+	TextareaControl,
 } from '@wordpress/components';
 // import { registerCoreBlocks } from '@wordpress/block-library';
 import { registerBlockType } from '@wordpress/blocks';
@@ -65,12 +69,26 @@ const submitButton = {
 };
 
 // const defaultBlocks = [ emailInput, submitButton ];
-const defaultBlocks = BCMapper.mapToEditor( BCMapper.formData );
+const defaultBlocks = BCMapper.getBlocks( BCMapper.formData );
 
 function App() {
 	const [ blocks, updateBlocks ] = useState( defaultBlocks );
+	const [ formName, updateFormName ] = useState( BCMapper.formData.name );
+	const [ formStyles, updateFormStyles ] = useState( BCMapper.formData.styles );
+	const [ formLists, updateFormLists ] = useState( [] );
 
 	const blocksRef = useRef();
+
+	const lists = [
+		{
+			value: 1,
+			label: 'My First List',
+		},
+		{
+			value: 2,
+			label: 'VIP',
+		},
+	];
 
 	/* eslint-disable no-console */
 	useEffect( () => {
@@ -78,6 +96,13 @@ function App() {
 		console.log( blocks );
 		console.log( 'Previous blocks' );
 		console.log( blocksRef.current );
+		const emails = blocks.filter( ( block ) => ( block.clientId === 'email' ) );
+		if ( !emails.length ) {
+			alert( 'Can‘t delete email' );
+			updateBlocks( blocksRef.current );
+			return;
+		}
+
 		blocksRef.current = blocks;
 	}, [ blocks ] );
 	/* eslint-enable no-console */
@@ -95,7 +120,7 @@ function App() {
 							onInput={ updateBlocks }
 							onChange={ updateBlocks }
 						>
-							<div className="editor-styles-wrapper playground__editor">
+							<div className="editor-styles-wrapper playground__editor mailpoet_form">
 								<BlockEditorKeyboardShortcuts />
 								<WritingFlow>
 									<ObserveTyping>
@@ -106,9 +131,17 @@ function App() {
 							<Popover.Slot />
 							<div className="playground__panel">
 								<Panel>
-									<PanelHeader label="PANEL HEADER">Hello panel</PanelHeader>
-									<PanelBody>
+									<PanelHeader label="Form Editor">{ formName }</PanelHeader>
+									<PanelBody title="Form Settings">
+										<TextControl label="Name" onChange={ updateFormName } value={ formName } />
+										<SelectControl label="Lists" onChange={ updateFormLists } options={ lists } multiple />
+										<Button isPrimary onClick={ () => ( alert( 'save' ) ) }>Save</Button>
+									</PanelBody>
+									<PanelBody title="Block Settings">
 										<BlockInspector />
+									</PanelBody>
+									<PanelBody title="Form CSS">
+										<TextareaControl value={ formStyles } onChange={ updateFormStyles }/>
 									</PanelBody>
 								</Panel>
 							</div>
@@ -116,6 +149,7 @@ function App() {
 					</DropZoneProvider>
 				</SlotFillProvider>
 			</div>
+			<style dangerouslySetInnerHTML={ { __html: formStyles  } } />
 		</Fragment>
 	);
 }

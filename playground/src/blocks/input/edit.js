@@ -7,14 +7,11 @@ import {
 } from '@wordpress/compose';
 
 const blockStyle = {
-	backgroundColor: '#fff',
-	color: '#fff',
 	padding: '0px',
 };
 
 const inputStyle = {
 	borderColor: '#666',
-	backgroundColor: '#fff',
 	color: '#333',
 	padding: '10px',
 	fontSize: '16px',
@@ -37,8 +34,8 @@ const InputEdit = ( { instanceId, attributes } ) => {
 
 	return (
 		<div style={ blockStyle }>
-			<label htmlFor={ id } style={ labelStyle }>{ attributes.label }<br />
-				<input id={ id } stype={ inputStyle } type={ attributes.fieldType } name="name" placeholder="placeholder" />
+			<label className="mailpoet_text_label" htmlFor={ id } style={ labelStyle }>{ attributes.label }<br />
+				<input id={ id } style={ inputStyle } type={ attributes.fieldType } name="name" placeholder="placeholder" />
 			</label>
 		</div>
 	);

@@ -2,22 +2,12 @@
  * WordPress dependencies
  */
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
-import { __ } from '@wordpress/i18n/src';
+import { TextControl, RangeControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 
 const blockStyle = {
-	backgroundColor: '#fff',
-	color: '#fff',
 	padding: '0px',
-};
-
-const buttonStyle = {
-	borderColor: '#aaa',
-	backgroundColor: '#ddd',
-	color: '#333',
-	padding: '10px 15px',
-	fontSize: '20px',
 };
 
 const SubmitEdit = ( { attributes, setAttributes } ) => {
@@ -25,22 +15,40 @@ const SubmitEdit = ( { attributes, setAttributes } ) => {
 		setAttributes( { label: value } );
 	};
 
+	const changeBorderRadius = ( value ) => {
+		setAttributes( { borderRadius: value } );
+	};
+
+	const buttonStyle = {
+		borderColor: '#aaa',
+		backgroundColor: '#ddd',
+		color: '#333',
+		padding: '10px 15px',
+		fontSize: '20px',
+		borderRadius: attributes.borderRadius + 'px',
+	};
+
 	const inspectorControls = (
 		<InspectorControls>
-			<PanelBody title={ __( 'Submit button settings' ) }>
-				<TextControl
-					label={ __( 'Button label' ) }
-					value={ attributes.label }
-					onChange={ changeLabel }
-				/>
-			</PanelBody>
+			<TextControl
+				label={ __( 'Button label', 'mailpoet' ) }
+				value={ attributes.label }
+				onChange={ changeLabel }
+			/>
+			<RangeControl
+				value={ attributes.borderRadius || 0}
+				min={ 0 }
+				max={ 50 }
+				label={ __( 'Border radius', 'mailpoet' ) }
+				onChange={ changeBorderRadius }
+			/>
 		</InspectorControls>
 	);
 
 	return (
 		<Fragment>
 			{ inspectorControls }
-			<div style={ blockStyle }><button style={ buttonStyle }>{ attributes.label }</button></div>
+			<div style={ blockStyle }><button className="mailpoet_submit" style={ buttonStyle }>{ attributes.label }</button></div>
 		</Fragment>
 	);
 };

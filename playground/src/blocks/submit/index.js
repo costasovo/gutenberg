@@ -14,10 +14,15 @@ export const settings = {
 			type: 'string',
 			default: 'Submit',
 		},
+		borderRadius: {
+			type: 'integer',
+			default: 0,
+		},
 	},
 	category: 'widgets',
 	supports: {
 		html: false,
+		customClassName: false,
 	},
 	edit,
 	save() {
